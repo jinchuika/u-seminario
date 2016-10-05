@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba</title>
+</head>
+<body>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Producto</th>
+				<th>Fecha</th>
+				<th>Cantidad</th>
+				<th>Precio unitario</th>
+				<th>Precio total</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for compra in compra_list %}
+				<tr>
+					<td>{{ compra.producto }}</td>
+					<td>{{ compra.fecha }}</td>
+					<td>{{ compra.cantidad }}</td>
+					<td>{{ compra.precio }}</td>
+					<td>{{ compra.total }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

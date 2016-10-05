@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba</title>
+</head>
+<body>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Producto</th>
+				<th>Altas</th>
+				<th>Bajas</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for producto in producto_list %}
+				<tr>
+					<td>{{ producto.nombre }}</td>
+					<td>{{ producto.compras }}</td>
+					<td>{{ producto.ventas }}</td>
+					<td>{{ producto.existencia }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>
