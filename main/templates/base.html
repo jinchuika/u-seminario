@@ -1,1 +1,56 @@
-base.html
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>POS</title>
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/animate.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/paper-dashboard.css" %}">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sidebar" data-background-color="white" data-active-color="danger">
+			<div class="sidebar-wrapper">
+				<div class="logo">
+					<a href="#" class="simple-text">
+						Punto de venta
+					</a>
+				</div>
+				<ul class="nav">
+					<li class="active">
+						<a href="{% url "producto_add" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Productos</p>
+						</a>
+					</li>
+					<li class="active">
+						<a href="{% url "compra_precio_add" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Precios de compra</p>
+						</a>
+					</li>
+					<li class="active">
+						<a href="{% url "venta_precio_add" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Precios de venta</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					{% block content %}
+
+					{% endblock content %}
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script src="{% static "js/jquery.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+</html>

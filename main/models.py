@@ -52,7 +52,7 @@ class Producto(models.Model):
 	existencia = property(existencia)
 
 	def __str__(self):
-		return str(self.nombre) + str(self.existencia)
+		return str(self.nombre)
 
 class Compra(models.Model):
 	producto = models.ForeignKey('Producto')
