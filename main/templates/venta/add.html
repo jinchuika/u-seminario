@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<form action="{{action}}" method="post">
+<table class="table">
+	{% csrf_token %}
+	{{form.as_table}}
+
+	<tbody id="detalle_table">
+	{% for form_detalle in named_formsets.detalle.forms %}
+	<tr id="{{form_detalle.prefix}}-row" class="form-container-detalle">
+		<td>Producto</td>
+		{{ form_detalle.id }}
+		<td>
+			{% if form_detalle.instance.pk %}{{ form_detalle.DELETE }}{% endif %}
+			{{form_detalle.producto}}
+		</td>
+		<td>
+			{{form_detalle.cantidad}}
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" class="btn btn-primary" value="Guardar">
+		</td>
+	</tr>
+</table>
+{{ named_formsets.detalle.management_form }}
+</form>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static "js/jquery.formset.js" %}"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#detalle_table  tr').formset({
+			prefix: "{{ named_formsets.detalle.prefix }}"
+		});
+		$('table.form-container-detalle').formset({
+			prefix: "{{ named_formsets.detalle.prefix }}",
+
+		});
+	});
+</script>
+{% endblock extra_js %}

@@ -21,13 +21,31 @@
 					<li class="active">
 						<a href="{% url "producto_add" %}">
 							<i class="ti-pie-chart"></i>
-							<p>Productos</p>
+							<p>Inventario</p>
+						</a>
+					</li>
+					<li class="active">
+						<a href="{% url "compra_all" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Resumen de compras</p>
+						</a>
+					</li>
+					<li class="active">
+						<a href="{% url "compra_add" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Nueva compra</p>
 						</a>
 					</li>
 					<li class="active">
 						<a href="{% url "compra_precio_add" %}">
 							<i class="ti-pie-chart"></i>
 							<p>Precios de compra</p>
+						</a>
+					</li>
+					<li class="active">
+						<a href="{% url "venta_add" %}">
+							<i class="ti-pie-chart"></i>
+							<p>Nueva venta</p>
 						</a>
 					</li>
 					<li class="active">
@@ -53,4 +71,8 @@
 </body>
 <script src="{% static "js/jquery.js" %}"></script>
 <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+{% block extra_js %}
+	
+{% endblock extra_js %}
 </html>

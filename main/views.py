@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from main.models import *
 from django.urls import reverse_lazy
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import ProductoForm, VentaPrecioForm, CompraPrecioForm
-from .mixins import PrecioMixin
+from .forms import *
+from .mixins import VentaContextMixin
 
 def compra_all(request):
 	compra_list = Compra.objects.all()
@@ -30,7 +31,7 @@ class ProductoView(CreateView):
 	    context['producto_list'] = Producto.objects.all()
 	    return context
 
-class ProductoUpdateView(PrecioMixin, UpdateView):
+class ProductoUpdateView(UpdateView):
 	model = Producto
 	form_class = ProductoForm
 	template_name = 'producto/detail.html'
@@ -47,3 +48,19 @@ class PrecioCompraAdd(CreateView):
 	form_class = CompraPrecioForm
 	template_name = 'compra/precio_add.html'
 	success_url = reverse_lazy('producto_add')
+
+class CompraAdd(CreateView):
+	model = Compra
+	form_class = CompraForm
+	template_name = 'compra/form.html'
+	success_url = reverse_lazy('compra_all')
+
+class CompraList(ListView):
+	model = Compra
+	template_name = 'compra/all.html'
+
+class VentaAdd(VentaContextMixin, CreateView):
+	model = Venta
+	template_name = 'venta/add.html'
+	success_url = reverse_lazy('producto_add')
+	form_class = VentaForm
