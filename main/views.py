@@ -41,7 +41,7 @@ class PrecioVentaAdd(CreateView):
 	model = VentaPrecio
 	form_class = VentaPrecioForm
 	template_name = 'venta/precio_add.html'
-	success_url = reverse_lazy('producto_all')
+	success_url = reverse_lazy('producto_add')
 
 class PrecioCompraAdd(CreateView):
 	model = CompraPrecio
