@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^v/add/$', views.VentaAdd.as_view(), name='venta_add'),
     url(r'^v/precio/add/$', views.PrecioVentaAdd.as_view(), name='venta_precio_add'),
 
+    url(r'^', views.ProductoView.as_view(), name='home'),
+
 ]
