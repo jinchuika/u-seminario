@@ -1,55 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="." method="post">
+<h1>{{ producto }}</h1>
+<div class="card">
+	<div class="lead">Precios a los que se ha comprado</div>
 	<table class="table">
-		{% csrf_token %}
-		{{ form.non_field_errors }} 
-		{{ form.as_table }}
-		<tbody id="compra_table">
-			{% for form_compra in named_formsets.compra.forms %}
-			<tr id="{{form_compra.prefix}}-row" class="form-container-compra">
-				<td>
-					Precio de compra (
-					{% if form_compra.instance.pk %}
-					{{ form_compra.instance.fecha }}
-					{% else %}
-					{% now "d/m/Y" %}
-					{% endif %} )
-				</td>
-				{{ form_compra.id }}
-				<td>
-					{{ form_compra.non_field_errors }} 	
-					{% if form_compra.instance.pk %}
-					{{ form_compra.instance.precio }}
-					{% else %}
-					{{ form_compra.precio }}
-					{% endif %}
-				</td>
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Precio</th>
 			</tr>
+		</thead>
+		<tbody>
+			{% for precio_compra in producto.precio_compra.all|dictsort:"fecha" %}
+				<tr>
+					<td>{{ precio_compra.fecha }}</td>
+					<td>{{ precio_compra.precio }}</td>
+				</tr>
 			{% endfor %}
 		</tbody>
-		<tbody id="venta_table">
-			{% for form_venta in named_formsets.venta.forms %}
-			<tr id="{{form_venta.prefix}}-row" class="form-container-venta">
-				<td>Precio de venta</td>
-				{{ form_venta.id }}
-				<td>
-					{% if form_venta.instance.pk %}
-					{{ form_venta.instance.precio }}
-					{% else %}
-					{{ form_venta.precio }}
-					{% endif %}
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-		<tr>
-			<td colspan="2">
-				<input type="submit" value="Guardar">
-			</td>
-		</tr>
-		{{ named_formsets.compra.management_form }}
-		{{ named_formsets.venta.management_form }}
 	</table>
-</form>
+</div>
+
+<div class="card">
+	<div class="lead">Precios a los que se ha vendido</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Precio</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for precio_venta in producto.precio_venta.all|dictsort:"fecha" %}
+				<tr>
+					<td>{{ precio_venta.fecha }}</td>
+					<td>{{ precio_venta.precio }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% endblock content %}

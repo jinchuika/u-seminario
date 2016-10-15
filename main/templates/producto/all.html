@@ -14,7 +14,7 @@
 		<tbody>
 			{% for producto in producto_list %}
 			<tr>
-				<td>{{ producto.nombre }}</td>
+				<td><a href="{% url "producto_detail" pk=producto.id%}">{{ producto.nombre }}</a></td>
 				<td>{{ producto.compras }}</td>
 				<td>{{ producto.ventas }}</td>
 				<td>{{ producto.existencia }}</td>

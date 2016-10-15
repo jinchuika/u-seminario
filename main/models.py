@@ -60,7 +60,10 @@ class Compra(models.Model):
 	fecha = models.DateField(default=timezone.now)
 
 	def precio(self):
-		return self.producto.precio_compra_actual.precio
+		if self.producto.precio_compra_actual:
+			return self.producto.precio_compra_actual.precio
+		else:
+			return 0
 	precio = property(precio)
 
 	def total(self):
@@ -70,7 +73,7 @@ class Compra(models.Model):
 		return str(self.producto) + str(self.fecha)
 
 class CompraPrecio(models.Model):
-	producto = models.ForeignKey('Producto')
+	producto = models.ForeignKey('Producto', related_name='precio_compra')
 	precio = models.DecimalField(max_digits=9, decimal_places=2)
 	fecha = models.DateField(default=timezone.now)
 
@@ -90,7 +93,7 @@ class Venta(models.Model):
 		return str(self.fecha) + str(self.id)
 
 class VentaPrecio(models.Model):
-	producto = models.ForeignKey('Producto')
+	producto = models.ForeignKey('Producto', related_name='precio_venta')
 	precio = models.DecimalField(max_digits=9, decimal_places=2)
 	fecha = models.DateField(default=timezone.now)
 	

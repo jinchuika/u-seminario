@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from main.models import *
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
 from .mixins import VentaContextMixin
@@ -31,11 +31,9 @@ class ProductoView(CreateView):
 	    context['producto_list'] = Producto.objects.all()
 	    return context
 
-class ProductoUpdateView(UpdateView):
+class ProductoDetail(DetailView):
 	model = Producto
-	form_class = ProductoForm
 	template_name = 'producto/detail.html'
-	success_url = reverse_lazy('producto_add')
 
 class PrecioVentaAdd(CreateView):
 	model = VentaPrecio
