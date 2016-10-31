@@ -88,5 +88,8 @@ ENV/
 # Rope project settings
 .ropeproject
 
+settings_local.py
+*.sqlite3
+*local.py
 db.sqlite3
 seminario/db.sqlite3
