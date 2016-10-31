@@ -1,37 +1,53 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% load staticfiles %}
 
 {% block content %}
-<form action="{{action}}" method="post">
-<table class="table">
-	{% csrf_token %}
-	{{form.as_table}}
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box">
+					<div class="box-header">
+						<h3>Nueva venta</h3>
+					</div>
 
-	<tbody id="detalle_table">
-	{% for form_detalle in named_formsets.detalle.forms %}
-	<tr id="{{form_detalle.prefix}}-row" class="form-container-detalle">
-		<td>Producto</td>
-		{{ form_detalle.id }}
-		<td>
-			{% if form_detalle.instance.pk %}{{ form_detalle.DELETE }}{% endif %}
-			{{form_detalle.producto}}
-		</td>
-		<td>
-			{{form_detalle.cantidad}}
-		</td>
-	</tr>
-	{% endfor %}
-	</tbody>
+					<div class="box-body">
+						<form action="{{action}}" method="post">
+							<table class="table table-hover">
+								{% csrf_token %}
+								{{form.as_table}}
 
-	<tr>
-		<td colspan="2" align="center">
-			<input type="submit" class="btn btn-primary" value="Guardar">
-		</td>
-	</tr>
-</table>
-{{ named_formsets.detalle.management_form }}
-</form>
+								<tbody id="detalle_table">
+									{% for form_detalle in named_formsets.detalle.forms %}
+									<tr id="{{form_detalle.prefix}}-row" class="form-container-detalle">
+										<td>Producto</td>
+										{{ form_detalle.id }}
+										<td>
+											{% if form_detalle.instance.pk %}{{ form_detalle.DELETE }}{% endif %}
+											{{form_detalle.producto}}
+										</td>
+										<td>
+											{{form_detalle.cantidad}}
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+
+								<tr>
+									<td colspan="2" align="center">
+										<input type="submit" class="btn btn-primary" value="Guardar">
+									</td>
+								</tr>
+							</table>
+							{{ named_formsets.detalle.management_form }}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock content %}
 
 {% block extra_js %}

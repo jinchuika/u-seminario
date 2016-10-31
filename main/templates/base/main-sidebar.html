@@ -1,0 +1,52 @@
+{% load thumbnail %}
+{% load menu %}
+
+{% block sidebar %}
+    
+
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
+
+	<!-- Sidebar user panel (optional) -->
+	<div class="user-panel">
+		<div class="pull-left image">
+			<img src="{{ user.perfil.foto|thumbnail_url:'avatar-sm' }}" class="img-circle" alt="User Image">
+		</div>
+		<div class="pull-left info">
+			<p>{{user.first_name}} {{user.last_name}}</p>
+		</div>
+	</div>
+
+	<!-- Sidebar Menu -->
+	<ul class="sidebar-menu">
+		{% generate_menu %}
+		{% for key, menu in menus.items %}
+			{% for item in menu %}
+					{% if item.visible %}
+						{% if item.separator %}
+						<li class="header">....</li>
+						{% endif %}
+						<li class="{% if item.selected %} active{% endif %}{% if item.children %} treeview{% endif %}" id="top-menu-{{ item.slug }}">
+							<a href="{{ item.url }}"{% if item.children %} {% endif %}>
+								{% if item.icon %}
+								<i class="fa {{ item.icon }}"></i>
+								{% endif %}
+								<span>{{ item.title }}</span>
+								{% if item.children %}
+									<span class="pull-right-container">
+										<i class="fa fa-angle-left pull-right"></i>
+									</span>
+								{% endif %}
+							</a>
+							{% if item.children %}
+							{% include 'base/main-sidebar-sub.html' with items=item.children %}
+							{% endif %}
+						</li>
+					{% endif %}
+				{% endfor %}
+		{% endfor %}
+	</ul>
+	<!-- /.sidebar-menu -->
+</section>
+<!-- /.sidebar -->
+{% endblock sidebar %}

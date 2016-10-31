@@ -1,43 +1,59 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 {% block content %}
-<h1>{{ producto }}</h1>
-<div class="card">
-	<div class="lead">Precios a los que se ha comprado</div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Fecha</th>
-				<th>Precio</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for precio_compra in producto.precio_compra.all|dictsort:"fecha" %}
-				<tr>
-					<td>{{ precio_compra.fecha }}</td>
-					<td>{{ precio_compra.precio }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<h1>{{ producto }}</h1>
+			<div class="box">
+				<div class="box-header">
+					<h3>Precios a los que se ha comprado</h3>
+				</div>
+				<div class="box-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Precio</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for precio_compra in producto.precio_compra.all|dictsort:"fecha" %}
+							<tr>
+								<td>{{ precio_compra.fecha }}</td>
+								<td>{{ precio_compra.precio }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-<div class="card">
-	<div class="lead">Precios a los que se ha vendido</div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Fecha</th>
-				<th>Precio</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for precio_venta in producto.precio_venta.all|dictsort:"fecha" %}
-				<tr>
-					<td>{{ precio_venta.fecha }}</td>
-					<td>{{ precio_venta.precio }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+			<div class="box">
+				<div class="box-header">
+					<h3>Precios a los que se ha vendido</h3>
+				</div>
+				<div class="box-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Precio</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for precio_venta in producto.precio_venta.all|dictsort:"fecha" %}
+							<tr>
+								<td>{{ precio_venta.fecha }}</td>
+								<td>{{ precio_venta.precio }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
 {% endblock content %}

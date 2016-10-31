@@ -1,31 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="UTF-8">
-	<title>Prueba</title>
-</head>
-<body>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>Producto</th>
-				<th>Fecha</th>
-				<th>Cantidad</th>
-				<th>Precio unitario</th>
-				<th>Precio total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for compra in compra_list %}
-				<tr>
-					<td>{{ compra.producto }}</td>
-					<td>{{ compra.fecha }}</td>
-					<td>{{ compra.cantidad }}</td>
-					<td>{{ compra.precio }}</td>
-					<td>{{ compra.total }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</body>
-</html>
+{% extends "base/base.html" %}
+
+{% block content %}
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box">
+					<div class="box-header">
+						<h3>Detalle de ventas</h3>
+					</div>
+
+					<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Producto</th>
+									<th>Fecha</th>
+									<th>Cantidad</th>
+									<th>Precio unitario</th>
+									<th>Precio total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for ventadetalle in ventadetalle_list %}
+								<tr>
+									<td>
+									<a href="{{ventadetalle.producto.get_absolute_url}}">
+											{{ ventadetalle.producto }}
+										</a>
+									</td>
+									<td>{{ ventadetalle.venta.fecha }}</td>
+									<td>{{ ventadetalle.cantidad }}</td>
+									<td>{{ ventadetalle.precio }}</td>
+									<td>{{ ventadetalle.total }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock content %}

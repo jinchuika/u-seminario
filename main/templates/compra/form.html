@@ -1,15 +1,30 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block content %}
-<form action="{{action}}" method="post">
-<table class="table">
-	{% csrf_token %}
-	{{form.as_table}}
-	<tr>
-		<td colspan="2" align="center">
-			<input type="submit" class="btn btn-primary" value="Guardar">
-		</td>
-	</tr>
-</table>
-</form>
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3>Nueva compra</h3>
+					</div>
+					<div class="box-body">
+						<form action="{{action}}" method="post">
+							<table class="table">
+								{% csrf_token %}
+								{{form.as_table}}
+								<tr>
+									<td colspan="2" align="center">
+										<input type="submit" class="btn btn-primary" value="Guardar">
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock content %}

@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
 from .mixins import VentaContextMixin
+from braces.views import LoginRequiredMixin
 
 def compra_all(request):
 	compra_list = Compra.objects.all()
@@ -13,14 +14,11 @@ def compra_all(request):
 	}
 	return render(request, 'compra/all.html', context)
 
-def producto_all(request):
-	producto_list = Producto.objects.all()
-	context = {
-		'producto_list': producto_list
-	}
-	return render(request, 'producto/all.html', context)
+class ProductoList(LoginRequiredMixin, ListView):
+	model = Producto
+	template_name = 'producto/all.html'
 
-class ProductoView(CreateView):
+class ProductoView(LoginRequiredMixin, CreateView):
 	model = Producto
 	form_class = ProductoForm
 	template_name = 'producto/add.html'
@@ -31,11 +29,11 @@ class ProductoView(CreateView):
 	    context['producto_list'] = Producto.objects.all()
 	    return context
 
-class ProductoDetail(DetailView):
+class ProductoDetail(LoginRequiredMixin, DetailView):
 	model = Producto
 	template_name = 'producto/detail.html'
 
-class PrecioVentaAdd(CreateView):
+class PrecioVentaAdd(LoginRequiredMixin, CreateView):
 	model = VentaPrecio
 	form_class = VentaPrecioForm
 	template_name = 'venta/precio_add.html'
@@ -53,7 +51,7 @@ class CompraAdd(CreateView):
 	template_name = 'compra/form.html'
 	success_url = reverse_lazy('compra_all')
 
-class CompraList(ListView):
+class CompraList(LoginRequiredMixin, ListView):
 	model = Compra
 	template_name = 'compra/all.html'
 
@@ -62,3 +60,12 @@ class VentaAdd(VentaContextMixin, CreateView):
 	template_name = 'venta/add.html'
 	success_url = reverse_lazy('producto_add')
 	form_class = VentaForm
+
+class VentaList(LoginRequiredMixin, ListView):
+	model = VentaDetalle
+	template_name = 'venta/all.html'
+
+class PerfilView(LoginRequiredMixin, UpdateView):
+    template_name = 'user/perfil.html'
+    form_class = PerfilForm
+    model = Perfil

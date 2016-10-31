@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'braces',
+    'easy_thumbnails',
+    'menu',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -129,3 +132,19 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+LOGIN_URL = '/admin/login/'
+
+MEDIA_ROOT = 'etc/media/'
+MEDIA_URL = '/media/'
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'background': {'size': (1350, 650), 'crop': True},
+        'avatar-lg': {'size': (500, 375), 'crop': True},
+        'avatar': {'size': (180, 180), 'crop': True},
+        'avatar-sm': {'size': (90, 90), 'crop': True},
+        'icon': {'size': (40, 40), 'crop': True},
+        'icon-xs': {'size': (15, 15), 'crop': True},
+    },
+}
