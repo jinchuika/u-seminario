@@ -27,26 +27,26 @@ venta_children = (
         icon="fa-plus"
         ),
     ViewMenuItem(
-        "Listado de compras",
-        reverse_lazy("compra_all"),
-        icon="fa-plus"
+        "Listado de ventas",
+        reverse_lazy("venta_all"),
+        icon="fa-list"
         ),
     ViewMenuItem(
         "Actualizar precios de venta",
         reverse_lazy("venta_precio_add"),
-        icon="fa-change"))
+        icon="fa-repeat"))
 
 Menu.add_item(
     "venta",
     ViewMenuItem(
         "Ventas",
         "#",
-        icon="fa-key",
+        icon="fa-external-link",
         children=venta_children))
 
 # Compras
 
-venta_children = (
+compra_children = (
     ViewMenuItem(
         "Nueva compra",
         reverse_lazy("compra_add"),
@@ -55,20 +55,20 @@ venta_children = (
     ViewMenuItem(
         "Listado de compras",
         reverse_lazy("compra_all"),
-        icon="fa-plus"
+        icon="fa-list"
         ),
     ViewMenuItem(
         "Actualizar precios de compra",
         reverse_lazy("compra_precio_add"),
-        icon="fa-change"))
+        icon="fa-repeat"))
 
 Menu.add_item(
     "compra",
     ViewMenuItem(
         "Compras",
         "#",
-        icon="fa-key",
-        children=venta_children))
+        icon="fa-level-down",
+        children=compra_children))
 
 # Inventario
 
@@ -76,19 +76,19 @@ producto_children = (
     ViewMenuItem(
         "Listado de productos",
         reverse_lazy("producto_all"),
-        icon="fa-plus"
+        icon="fa-list"
         ),
     ViewMenuItem(
         "Agregar un producto",
         reverse_lazy("producto_add"),
-        icon="fa-change"))
+        icon="fa-plus"))
 
 Menu.add_item(
     "producto",
     ViewMenuItem(
         "Inventario",
         "#",
-        icon="fa-key",
+        icon="fa-television",
         children=producto_children))
 
 # Administración

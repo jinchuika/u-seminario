@@ -93,3 +93,4 @@ settings_local.py
 *local.py
 db.sqlite3
 seminario/db.sqlite3
+.idea/

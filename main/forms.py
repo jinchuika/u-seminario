@@ -45,6 +45,7 @@ class VentaForm(forms.ModelForm):
     class Meta:
         model = Venta
         fields = '__all__'
+        exclude = ('vendedor',)
 
 
 VentaDetalleFormSet = inlineformset_factory(Venta, VentaDetalle, fields='__all__',extra=1, can_delete=False)

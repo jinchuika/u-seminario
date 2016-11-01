@@ -19,7 +19,11 @@
 						<tbody>
 							{% for compra in compra_list %}
 							<tr>
-								<td>{{ compra.producto }}</td>
+								<td>
+									<a href="{{compra.producto.get_absolute_url}}">
+										{{ compra.producto }}
+									</a>
+								</td>
 								<td>{{ compra.fecha }}</td>
 								<td>{{ compra.cantidad }}</td>
 								<td>{{ compra.precio }}</td>

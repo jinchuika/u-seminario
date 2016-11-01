@@ -42,7 +42,11 @@
 								<tbody>
 									{% for producto in producto_list %}
 									<tr>
-										<td>{{ producto }}</td>
+										<td>
+											<a href="{{producto.get_absolute_url}}">
+												{{ producto }}
+											</a>
+										</td>
 										<td>{{ producto.existencia }}</td>
 										<td>{{ producto.precio_compra_actual }}</td>
 										<td>{{ producto.precio_venta_actual }}</td>

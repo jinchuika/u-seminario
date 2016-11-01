@@ -107,7 +107,7 @@ class Compra(models.Model):
         return self.cantidad * self.precio
 
     def __str__(self):
-        return str(self.producto) + str(self.fecha)
+        return "No. " + str(self.id) + " - (" + str(self.fecha) + ")"
 
 class CompraPrecio(models.Model):
     producto = models.ForeignKey('Producto', related_name='precio_compra')
@@ -127,7 +127,7 @@ class Venta(models.Model):
     fecha = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return str(self.fecha) + str(self.id)
+        return "No. " + str(self.id) + " - (" + str(self.fecha) + ")"
 
 class VentaPrecio(models.Model):
     producto = models.ForeignKey('Producto', related_name='precio_venta')
