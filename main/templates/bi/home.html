@@ -13,31 +13,55 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Venta de productos</h3>
-						<div class="box-tools pull-right">
-							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-							</button>
-							<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-						</div>
+					<div class="box-header">
+						<h3 class="box-title">Filtro de fechas</h3>
 					</div>
 					<div class="box-body">
 						<form>
 							<div class="form-group">
-								<label>Fechas:</label>
 								<div class="input-group">
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</div>
 									<input type="text" class="form-control pull-right" id="reservation">
 								</div>
-								<!-- /.input group -->
 							</div>
-							<div class="chart">
-								<canvas id="barChart" style="height:430px"></canvas>
-							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box box-success">
+					<div class="box-header with-border">
+						<h3 class="box-title">Venta de productos</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
 						</div>
-					</form>
+					</div>
+					<div class="box-body">
+						<div class="chart">
+							<canvas id="barChart" style="height:430px"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box box-success">
+					<div class="box-header">
+						<h3 class="box-title">Vendedores</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						<canvas id="pieChart" style="height:430px"></canvas>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -51,7 +75,7 @@
 <script src="{% static "js/daterangepicker.js" %}"></script>
 <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
 <script>
-	function grafico_ventas(grafico, inicio, fin) {
+	function grafico_ventas(grafico_barra, grafico_pie, inicio, fin) {
 		$.ajax({
 			url: "{% url "analytics_api" %}",
 			data: {
@@ -63,15 +87,24 @@
 				var productos = [];
 				var cantidades_venta = [];
 				var cantidades_compra = [];
+				var vendedores_list = [];
+				var vendedores_cantidad = [];
 				$.each(respuesta.productos, function (index, item) {
 					productos.push(item.producto);
 					cantidades_venta.push(item.cantidad);
 					cantidades_compra.push(item.cantidad_compra);
 				});
-				grafico.config.data.labels = productos;
-				grafico.data.datasets[0].data = cantidades_venta;
-				grafico.data.datasets[1].data = cantidades_venta;
-				grafico.update();
+				grafico_barra.config.data.labels = productos;
+				grafico_barra.data.datasets[0].data = cantidades_venta;
+				grafico_barra.data.datasets[1].data = cantidades_venta;
+				grafico_barra.update();
+				$.each(respuesta.vendedores, function (index, item) {
+					vendedores_list.push(item.vendedor);
+					vendedores_cantidad.push(item.cantidad);
+				});
+				grafico_pie.config.data.labels = vendedores_list;
+				grafico_pie.data.datasets[0].data = vendedores_cantidad;
+				grafico_pie.update();
 			}
 		});
 	}
@@ -128,9 +161,31 @@
 		areaChartData.datasets[0].backgroundColor = "#00a65a";
 		areaChartData.datasets[0].strokeColor = "#00a65a";
 		areaChartData.datasets[0].pointColor = "#00a65a";
-		
 
-		barChartOptions.datasetFill = false;
+		pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+		var data_pie = {
+			labels: [],
+			datasets: [
+			{
+				data: [],
+				backgroundColor: [
+				"#FF6384",
+				"#36A2EB",
+				"#FFCE56"
+				],
+				hoverBackgroundColor: [
+				"#FF6384",
+				"#36A2EB",
+				"#FFCE56"
+				]
+			}]
+		};
+
+		var myPieChart = new Chart(pieChartCanvas, {
+			type: 'doughnut',
+			data: data_pie
+		});
+		
 		$('#reservation').daterangepicker({
 			"autoApply": true,
 			locale: {
@@ -138,7 +193,7 @@
 			}
 		},
 		function (start, end, label) {
-			grafico_ventas(barChart, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+			grafico_ventas(barChart, myPieChart, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
 		});
 		$('#reservation').data('daterangepicker').toggle();
 
