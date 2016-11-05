@@ -23,6 +23,9 @@ urlpatterns = [
 
     url(r'^perfil/(?P<pk>\d+)/$', views.PerfilView.as_view(), name='perfil'),
 
+    url(r'^bi/$', views.Analytics.as_view(), name='analytics'),
+    url(r'^bi/api/$', views.AnalyticsApi.as_view(), name='analytics_api'),
+
     url(r'^$', views.ProductoView.as_view(), name='home'),
 
 ]

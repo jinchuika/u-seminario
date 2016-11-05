@@ -131,6 +131,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    '/home/chuik/Dropbox/dev/u/seminario/static/',
 ]
 
 LOGIN_URL = '/admin/login/'

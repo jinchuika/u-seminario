@@ -90,7 +90,7 @@ class Producto(models.Model):
         return str(self.nombre)
 
 class Compra(models.Model):
-    producto = models.ForeignKey('Producto')
+    producto = models.ForeignKey('Producto', related_name='compra')
     cantidad = models.IntegerField()
     fecha = models.DateField(default=timezone.now)
 
@@ -141,8 +141,8 @@ class VentaPrecio(models.Model):
         return str(self.precio)
 
 class VentaDetalle(models.Model):
-    venta = models.ForeignKey('Venta')
-    producto = models.ForeignKey('Producto')
+    venta = models.ForeignKey('Venta', related_name='detalle_venta')
+    producto = models.ForeignKey('Producto', related_name='venta')
     cantidad = models.IntegerField()
 
     def get_precio(self):
@@ -158,4 +158,4 @@ class VentaDetalle(models.Model):
         return self.cantidad * self.precio
 
     def __str__(self):
-        return str(self.producto) + str(self.cantidad)
+        return str(self.producto) + " - " + str(self.cantidad)

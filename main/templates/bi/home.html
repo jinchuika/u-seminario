@@ -1,0 +1,135 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "css/daterangepicker.css" %}">
+<link rel="stylesheet" href="{% static "css/datepicker3.css" %}">
+{% endblock extra_css %}
+
+{% block content %}
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-success">
+					<div class="box-header with-border">
+						<h3 class="box-title">Venta de productos</h3>
+						<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+						</div>
+					</div>
+					<div class="box-body">
+						<form>
+							<div class="form-group">
+								<label>Fechas:</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" class="form-control pull-right" id="reservation">
+								</div>
+								<!-- /.input group -->
+							</div>
+							<div class="chart">
+								<canvas id="barChart" style="height:430px"></canvas>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static "js/Chart.min.js" %}"></script>
+<script src="{% static "js/moment.min.js" %}"></script>
+<script src="{% static "js/daterangepicker.js" %}"></script>
+<script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+<script>
+	function grafico_ventas(inicio, fin) {
+		$.ajax({
+			url: "{% url "analytics_api" %}",
+			data: {
+				inicio: inicio,
+				fin: fin,
+			},
+			dataType: 'json',
+			success: function (respuesta) {
+				var productos = [];
+				var cantidades_venta = [];
+				var cantidades_compra = [];
+				$.each(respuesta, function (index, item) {
+					productos.push(item.producto);
+					cantidades_venta.push(item.cantidad);
+					cantidades_compra.push(item.cantidad_compra);
+				});
+				var areaChartData = {
+					labels: productos,
+					datasets: [
+					{
+						label: "Compras",
+						fillColor: "rgba(210, 214, 222, 1)",
+						strokeColor: "rgba(210, 214, 222, 1)",
+						pointColor: "rgba(210, 214, 222, 1)",
+						pointStrokeColor: "#c1c7d1",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(220,220,220,1)",
+						data: cantidades_compra
+					},
+					{
+						label: "Ventas",
+						fillColor: "rgba(60,141,188,0.9)",
+						strokeColor: "rgba(60,141,188,0.8)",
+						pointColor: "#3b8bba",
+						pointStrokeColor: "rgba(60,141,188,1)",
+						pointHighlightFill: "#fff",
+						pointHighlightStroke: "rgba(60,141,188,1)",
+						data: cantidades_venta
+					}
+					]
+				};
+				var barChartCanvas = $("#barChart").get(0).getContext("2d");
+				var barChart = new Chart(barChartCanvas);
+				var barChartData = areaChartData;
+				barChartData.datasets[0].fillColor = "#00a65a";
+				barChartData.datasets[0].strokeColor = "#00a65a";
+				barChartData.datasets[0].pointColor = "#00a65a";
+				var barChartOptions = {
+					scaleBeginAtZero: true,
+					scaleShowGridLines: true,
+					scaleGridLineColor: "rgba(0,0,0,.05)",
+					scaleGridLineWidth: 1,
+					scaleShowHorizontalLines: true,
+					scaleShowVerticalLines: true,
+					barShowStroke: true,
+					barStrokeWidth: 2,
+					barValueSpacing: 5,
+					barDatasetSpacing: 1,
+					responsive: true,
+					maintainAspectRatio: true
+				};
+
+				barChartOptions.datasetFill = false;
+				barChart.Bar(barChartData, barChartOptions);
+			}
+		});
+	}
+	$(document).ready(function () {
+		$('#reservation').daterangepicker({
+			"autoApply": true,
+			locale: {
+				format: 'DD/MM/YYYY'
+			}
+		},
+		function (start, end, label) {
+			grafico_ventas(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+		});
+		$('#reservation').data('daterangepicker').toggle();
+	});
+</script>
+{% endblock extra_js %}
