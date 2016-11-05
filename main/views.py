@@ -107,9 +107,12 @@ class Analytics(LoginRequiredMixin, TemplateView):
 class AnalyticsApi(LoginRequiredMixin, TemplateView):
     def get(self, request):
         qs = self.analyze_producto(request.GET.get('inicio', None), request.GET.get('fin', None))
+        qs_vendedor = self.analyze_vendedor(request.GET.get('inicio', None), request.GET.get('fin', None))
 
         return HttpResponse(
-            json.dumps(qs)
+            json.dumps({
+                'productos': qs,
+                'vendedores': qs_vendedor})
             )
 
     def analyze_producto(self, fecha_inicio=None, fecha_fin=None):
@@ -132,5 +135,16 @@ class AnalyticsApi(LoginRequiredMixin, TemplateView):
                 'producto': producto.nombre,
                 'cantidad': sum(venta.cantidad for venta in producto.venta.filter(venta__in=venta_list)),
                 'cantidad_compra': sum(compra.cantidad for compra in producto.compra.filter(fecha__range=[fecha_inicio, fecha_fin])),
+                })
+        return lista
+
+    def analyze_vendedor(self, fecha_inicio=None, fecha_fin=None):
+        vendedor_list = Perfil.objects.all()
+        lista = []
+        for vendedor in vendedor_list:
+            venta_list = Venta.objects.filter(vendedor=vendedor, fecha__range=[fecha_inicio, fecha_fin])
+            lista.append({
+                'vendedor': str(vendedor),
+                'cantidad': sum(venta.cantidad for venta in VentaDetalle.objects.filter(venta__in=venta_list))
                 })
         return lista

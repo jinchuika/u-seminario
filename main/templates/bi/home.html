@@ -51,7 +51,7 @@
 <script src="{% static "js/daterangepicker.js" %}"></script>
 <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
 <script>
-	function grafico_ventas(inicio, fin) {
+	function grafico_ventas(grafico, inicio, fin) {
 		$.ajax({
 			url: "{% url "analytics_api" %}",
 			data: {
@@ -63,63 +63,74 @@
 				var productos = [];
 				var cantidades_venta = [];
 				var cantidades_compra = [];
-				$.each(respuesta, function (index, item) {
+				$.each(respuesta.productos, function (index, item) {
 					productos.push(item.producto);
 					cantidades_venta.push(item.cantidad);
 					cantidades_compra.push(item.cantidad_compra);
 				});
-				var areaChartData = {
-					labels: productos,
-					datasets: [
-					{
-						label: "Compras",
-						fillColor: "rgba(210, 214, 222, 1)",
-						strokeColor: "rgba(210, 214, 222, 1)",
-						pointColor: "rgba(210, 214, 222, 1)",
-						pointStrokeColor: "#c1c7d1",
-						pointHighlightFill: "#fff",
-						pointHighlightStroke: "rgba(220,220,220,1)",
-						data: cantidades_compra
-					},
-					{
-						label: "Ventas",
-						fillColor: "rgba(60,141,188,0.9)",
-						strokeColor: "rgba(60,141,188,0.8)",
-						pointColor: "#3b8bba",
-						pointStrokeColor: "rgba(60,141,188,1)",
-						pointHighlightFill: "#fff",
-						pointHighlightStroke: "rgba(60,141,188,1)",
-						data: cantidades_venta
-					}
-					]
-				};
-				var barChartCanvas = $("#barChart").get(0).getContext("2d");
-				var barChart = new Chart(barChartCanvas);
-				var barChartData = areaChartData;
-				barChartData.datasets[0].fillColor = "#00a65a";
-				barChartData.datasets[0].strokeColor = "#00a65a";
-				barChartData.datasets[0].pointColor = "#00a65a";
-				var barChartOptions = {
-					scaleBeginAtZero: true,
-					scaleShowGridLines: true,
-					scaleGridLineColor: "rgba(0,0,0,.05)",
-					scaleGridLineWidth: 1,
-					scaleShowHorizontalLines: true,
-					scaleShowVerticalLines: true,
-					barShowStroke: true,
-					barStrokeWidth: 2,
-					barValueSpacing: 5,
-					barDatasetSpacing: 1,
-					responsive: true,
-					maintainAspectRatio: true
-				};
-
-				barChartOptions.datasetFill = false;
-				barChart.Bar(barChartData, barChartOptions);
+				grafico.config.data.labels = productos;
+				grafico.data.datasets[0].data = cantidades_venta;
+				grafico.data.datasets[1].data = cantidades_venta;
+				grafico.update();
 			}
 		});
 	}
+	var areaChartData = {
+		labels: [],
+		datasets: [
+		{
+			label: "Compras",
+			backgroundColor: "rgba(210, 214, 222, 1)",
+			strokeColor: "rgba(210, 214, 222, 1)",
+			pointColor: "rgba(210, 214, 222, 1)",
+			pointStrokeColor: "#c1c7d1",
+			pointHighlightFill: "#fff",
+			pointHighlightStroke: "rgba(220,220,220,1)",
+			data: []
+		},
+		{
+			label: "Ventas",
+			backgroundColor: "rgba(60,141,188,0.9)",
+			strokeColor: "rgba(60,141,188,0.8)",
+			pointColor: "#3b8bba",
+			pointStrokeColor: "rgba(60,141,188,1)",
+			pointHighlightFill: "#fff",
+			pointHighlightStroke: "rgba(60,141,188,1)",
+			data: []
+		}
+		]
+	};
+	var barChartCanvas;
+	var barChart;
+	var barChartData;
 	$(document).ready(function () {
+		
+		barChartCanvas = $("#barChart").get(0).getContext("2d");
+		var barChartOptions = {
+			scaleBeginAtZero: true,
+			scaleShowGridLines: true,
+			scaleGridLineColor: "rgba(0,0,0,.05)",
+			scaleGridLineWidth: 1,
+			scaleShowHorizontalLines: true,
+			scaleShowVerticalLines: true,
+			barShowStroke: true,
+			barStrokeWidth: 2,
+			barValueSpacing: 5,
+			barDatasetSpacing: 1,
+			responsive: true,
+			maintainAspectRatio: true
+		};
+		barChart = new Chart(barChartCanvas, {
+			type: 'bar',
+			data: areaChartData,
+			options: barChartOptions
+		});
+		areaChartData.datasets[0].backgroundColor = "#00a65a";
+		areaChartData.datasets[0].strokeColor = "#00a65a";
+		areaChartData.datasets[0].pointColor = "#00a65a";
+		
+
+		barChartOptions.datasetFill = false;
 		$('#reservation').daterangepicker({
 			"autoApply": true,
 			locale: {
@@ -127,9 +138,10 @@
 			}
 		},
 		function (start, end, label) {
-			grafico_ventas(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+			grafico_ventas(barChart, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
 		});
 		$('#reservation').data('daterangepicker').toggle();
+
 	});
 </script>
 {% endblock extra_js %}

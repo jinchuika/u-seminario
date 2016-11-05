@@ -123,7 +123,7 @@ class CompraPrecio(models.Model):
         
 
 class Venta(models.Model):
-    vendedor = models.ForeignKey('Perfil')
+    vendedor = models.ForeignKey('Perfil', related_name='venta')
     fecha = models.DateField(default=timezone.now)
 
     def __str__(self):

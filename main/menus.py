@@ -94,8 +94,8 @@ Menu.add_item(
 # Administración
 admin_children = (
     ViewMenuItem(
-        "Lista de perfiles",
-        reverse_lazy("venta_add"),
+        "Análisis de datos",
+        reverse_lazy("analytics"),
         weight=10,
         icon="fa-users"),)
 
