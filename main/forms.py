@@ -51,7 +51,15 @@ class VentaForm(forms.ModelForm):
         exclude = ('vendedor',)
 
 
-VentaDetalleFormSet = inlineformset_factory(Venta, VentaDetalle, fields='__all__',extra=1, can_delete=False)
+VentaDetalleFormSet = inlineformset_factory(
+    Venta,
+    VentaDetalle,
+    fields='__all__',
+    extra=1,
+    can_delete=False,
+    widgets={
+        'producto': forms.Select(attrs={'class': 'form-control'}),
+        'cantidad': forms.NumberInput(attrs={'class': 'form-control'})})
 PrecioVentaFormSet = inlineformset_factory(Producto, VentaPrecio, fields='__all__',extra=1, can_delete=False)
 
 

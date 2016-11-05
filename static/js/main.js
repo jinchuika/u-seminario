@@ -13,7 +13,7 @@ var GLOBALS = GLOBALS || (function(){
 !function(a){a.fn.datepicker.dates.es={days:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],daysShort:["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],daysMin:["Do","Lu","Ma","Mi","Ju","Vi","Sa"],months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],monthsShort:["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],today:"Hoy",monthsTitle:"Meses",clear:"Borrar",weekStart:1,format:"dd/mm/yyyy"}}(jQuery);
 
 function activar_tab(tab){
-  $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+	$('.nav-tabs a[href="#' + tab + '"]').tab('show');
 };
 
 $(document).ready(function () {
@@ -49,7 +49,10 @@ $(document).ready(function () {
 				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
 				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 			}
-		}
+		},
+		buttons: [
+		'copy', 'excel', 'pdf'
+		]
 	});
 
 

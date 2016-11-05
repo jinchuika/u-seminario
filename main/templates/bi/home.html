@@ -32,8 +32,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6">
-				<div class="box box-success">
+			<div class="col-lg-6 col-md-12">
+				<div class="box box-success" id="box-producto">
 					<div class="box-header with-border">
 						<h3 class="box-title">Venta de productos</h3>
 						<div class="box-tools pull-right">
@@ -44,13 +44,13 @@
 					</div>
 					<div class="box-body">
 						<div class="chart">
-							<canvas id="barChart" style="height:430px"></canvas>
+							<canvas id="barChart" style="height:480px"></canvas>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="box box-success">
+			<div class="col-lg-6 col-md-12">
+				<div class="box box-success" id="box-vendedores">
 					<div class="box-header">
 						<h3 class="box-title">Vendedores</h3>
 						<div class="box-tools pull-right">
@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					<div class="box-body">
-						<canvas id="pieChart" style="height:430px"></canvas>
+						<canvas id="pieChart" style="height:480px"></canvas>
 					</div>
 				</div>
 			</div>
@@ -76,6 +76,8 @@
 <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
 <script>
 	function grafico_ventas(grafico_barra, grafico_pie, inicio, fin) {
+		$('#box-producto').hide();
+		$('#box-vendedores').hide();
 		$.ajax({
 			url: "{% url "analytics_api" %}",
 			data: {
@@ -84,6 +86,7 @@
 			},
 			dataType: 'json',
 			success: function (respuesta) {
+				$('#box-producto').show();
 				var productos = [];
 				var cantidades_venta = [];
 				var cantidades_compra = [];
@@ -95,9 +98,10 @@
 					cantidades_compra.push(item.cantidad_compra);
 				});
 				grafico_barra.config.data.labels = productos;
-				grafico_barra.data.datasets[0].data = cantidades_venta;
+				grafico_barra.data.datasets[0].data = cantidades_compra;
 				grafico_barra.data.datasets[1].data = cantidades_venta;
 				grafico_barra.update();
+				$('#box-vendedores').show();
 				$.each(respuesta.vendedores, function (index, item) {
 					vendedores_list.push(item.vendedor);
 					vendedores_cantidad.push(item.cantidad);
@@ -171,12 +175,14 @@
 				backgroundColor: [
 				"#FF6384",
 				"#36A2EB",
-				"#FFCE56"
+				"#FFCE56",
+				"#FFCEAA"
 				],
 				hoverBackgroundColor: [
 				"#FF6384",
 				"#36A2EB",
-				"#FFCE56"
+				"#FFCE56",
+				"#FFCEAA"
 				]
 			}]
 		};
