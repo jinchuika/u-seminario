@@ -11,7 +11,7 @@
 					</div>
 
 					<div class="box-body">
-						<table class="table table-hover">
+						<table class="table table-hover table-datatables">
 							<thead>
 								<tr>
 									<th>Producto</th>
@@ -31,8 +31,8 @@
 									</td>
 									<td>{{ ventadetalle.venta.fecha }}</td>
 									<td>{{ ventadetalle.cantidad }}</td>
-									<td>{{ ventadetalle.precio }}</td>
-									<td>{{ ventadetalle.total }}</td>
+									<td>Q. {{ ventadetalle.precio }}</td>
+									<td>Q. {{ ventadetalle.total }}</td>
 								</tr>
 								{% endfor %}
 							</tbody>

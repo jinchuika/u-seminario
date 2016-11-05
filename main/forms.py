@@ -33,6 +33,9 @@ class CompraForm(ModelForm):
     class Meta:
         model = Compra
         fields = '__all__'
+        widgets = {
+        'producto': forms.Select(attrs={'class': 'form-control select2'}),
+        'cantidad': forms.NumberInput(attrs={'class': 'form-control', 'min': 1})}
 
     def clean(self):
         cleaned_data = super(CompraForm, self).clean()

@@ -3,54 +3,113 @@
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
-			<h1>{{ producto }}</h1>
-			<div class="box">
-				<div class="box-header">
-					<h3>Precios a los que se ha comprado</h3>
-				</div>
-				<div class="box-body">
-					<table class="table">
-						<thead>
-							<tr>
+			<div class="col-md-12">
+				<h1>{{producto}}</h1>
+			</div>
+		</div>
+		<div class="row">
+			
+			<div class="col-md-6">
+				<div class="box box-info">
+					<div class="box-header">
+						<h3 class="box-title">
+							Compras de este producto
+						</h3>
+					</div>
+					<div class="box-body">
+						<table class="table table-striped">
+							<thead>
+								<th>Compra</th>
+								<th>Cantidad</th>
 								<th>Fecha</th>
-								<th>Precio</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for precio_compra in producto.precio_compra.all|dictsort:"fecha" %}
-							<tr>
-								<td>{{ precio_compra.fecha }}</td>
-								<td>{{ precio_compra.precio }}</td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{% for compra in producto.compra.all %}
+								<tr>
+									<td>{{compra.id}}</td>
+									<td>{{compra.cantidad}}</td>
+									<td>{{compra.fecha}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="box box-success">
+					<div class="box-header">
+						<h3 class="box-title">
+							Ventas de este producto
+						</h3>
+					</div>
+					<div class="box-body">
+						<table class="table table-striped">
+							<thead>
+								<th>Venta</th>
+								<th>Cantidad</th>
+								<th>Fecha</th>
+							</thead>
+							<tbody>
+								{% for venta in producto.venta.all %}
+								<tr>
+									<td>{{venta.venta.id}}</td>
+									<td>{{venta.cantidad}}</td>
+									<td>{{venta.venta.fecha}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
+			<div class="col-md-6">
+				<div class="box box-info">
+					<div class="box-header">
+						<h3 class="box-title">Precios a los que se ha comprado</h3>
+					</div>
+					<div class="box-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Fecha</th>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for precio_compra in producto.precio_compra.all|dictsort:"fecha" %}
+								<tr>
+									<td>{{ precio_compra.fecha }}</td>
+									<td>{{ precio_compra.precio }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
 
-			<div class="box">
-				<div class="box-header">
-					<h3>Precios a los que se ha vendido</h3>
+				<div class="box box-success">
+					<div class="box-header">
+						<h3 class="box-title">Precios a los que se ha vendido</h3>
+					</div>
+					<div class="box-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Fecha</th>
+									<th>Precio</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for precio_venta in producto.precio_venta.all|dictsort:"fecha" %}
+								<tr>
+									<td>{{ precio_venta.fecha }}</td>
+									<td>{{ precio_venta.precio }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+
 				</div>
-				<div class="box-body">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Fecha</th>
-								<th>Precio</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for precio_venta in producto.precio_venta.all|dictsort:"fecha" %}
-							<tr>
-								<td>{{ precio_venta.fecha }}</td>
-								<td>{{ precio_venta.precio }}</td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				
 			</div>
 		</div>
 	</div>
